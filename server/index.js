@@ -5,20 +5,28 @@ const PORT = process.env.PORT || 3001
 const app = express();
 
 app.listen(PORT, () => {
-    console.log('serber start')
+    console.log('server start: PORT:' + PORT)
 })
 
-app.get('/api', (req, res) => {
+function getTimeResponse (url ,link) {
+    app.get(url, (req, res) => {
 
         let start = Date.now();
       
         try {
-           fetch("http://127.0.0.1:7878/");
+           fetch(link);
         }
-        catch(err) {}
+        catch(err) {
+            return res.json({errorMessage: 'error: connection is exept'})
+        }
       
         return  res.json({
-            message: (Date.now() - start)
+            pingTime: (Date.now() - start),
+            hrefName: (link)
         })
     
 })
+}
+
+
+getTimeResponse ('/api1' ,'https://www.google.ru/')
